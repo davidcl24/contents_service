@@ -1,0 +1,9 @@
+from sqlmodel import SQLModel, Field, Relationship
+
+
+class Genre(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str | None = None
+
+    shows: list["Show"] = Relationship(back_populates="genre")
+    movies: list["Movie"] = Relationship(back_populates="genre")
