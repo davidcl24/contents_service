@@ -20,3 +20,4 @@ class Show(SQLModel, table=True):
     is_published: bool | None = None
 
     genre: Optional[Genre] = Relationship(back_populates="shows")
+    episodes: list["Episode"] = Relationship(back_populates="show")
