@@ -4,6 +4,8 @@ from typing import Optional
 from sqlmodel import SQLModel, Field, Relationship
 
 from app.models.genre import Genre
+from app.models.show_actor_link import ShowActorLink
+from app.models.show_director_link import ShowDirectorLink
 
 
 class Show(SQLModel, table=True):
@@ -21,3 +23,5 @@ class Show(SQLModel, table=True):
 
     genre: Optional[Genre] = Relationship(back_populates="shows")
     episodes: list["Episode"] = Relationship(back_populates="show")
+    actors: list["Actor"] = Relationship(back_populates="shows", link_model=ShowActorLink)
+    directors: list["Director"] = Relationship(back_populates="shows", link_model=ShowDirectorLink)
