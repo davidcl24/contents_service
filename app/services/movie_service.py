@@ -31,13 +31,11 @@ class MovieService:
         return result.all()
 
     def get_with_actor(self, actor_id: int):
-        result = self.session.get(Actor, actor_id)
-        actor = result.one()
+        actor = self.session.get(Actor, actor_id)
         return actor.movies
 
     def get_with_director(self, director_id: int):
-        result = self.session.get(Director, director_id)
-        director = result.one()
+        director = self.session.get(Director, director_id)
         return director.movies
 
     def get_batch(self, ids: list[int]):
