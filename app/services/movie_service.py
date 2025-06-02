@@ -1,0 +1,73 @@
+from fastapi import Depends, HTTPException
+from sqlmodel import Session, select
+
+from app.db.session import get_session
+from app.models.actor import Actor
+from app.models.director import Director
+from app.models.movie import Movie
+from app.schemas.movie import MovieCreate, MovieResponse, MovieUpdate
+
+
+class MovieService:
+    def __init__(self, session: Session = Depends(get_session())):
+        self.session = session
+
+    def create(self, movie_data: MovieCreate) -> MovieResponse:
+        movie = Movie(**movie_data.model_dump())
+        self.session.add(movie)
+        self.session.commit()
+        self.session.refresh(movie)
+        return MovieResponse(**movie.model_dump())
+
+    def get_all(self):
+        return self.session.exec(select(Movie)).all()
+
+    def get_by_id(self, movie_id: int):
+        return self.session.get(Movie, movie_id)
+
+    def get_by_genre(self, genre_id: int):
+        statement = select(Movie).where(Movie.genre_id == genre_id)
+        result = self.session.exec(statement)
+        return result.all()
+
+    def get_with_actor(self, actor_id: int):
+        result = self.session.get(Actor, actor_id)
+        actor = result.one()
+        return actor.movies
+
+    def get_with_director(self, director_id: int):
+        result = self.session.get(Director, director_id)
+        director = result.one()
+        return director.movies
+
+    def get_batch(self, ids: list[int]):
+        statement = select(Movie).where(Movie.id.in_(ids))
+        results = self.session.exec(statement).all()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="Movies not found")
+
+        return results
+
+    def update(self, movie_id: int, movie_data: MovieUpdate):
+        movie = self.session.get(Movie, movie_id)
+        if not movie:
+            raise HTTPException(status_code=404, detail="Movie not found")
+
+        movie_dict = movie_data.model_dump(exclude_unset=True)
+        for key, value in movie_dict.items():
+            setattr(movie, key, value)
+
+        self.session.add(movie)
+        self.session.commit()
+        self.session.refresh(movie)
+        return movie
+
+    def delete(self, movie_id: int):
+        movie = self.session.get(Movie, movie_id)
+        if not movie:
+            raise HTTPException(status_code=404, detail="Movie not found")
+
+        self.session.delete(movie)
+        self.session.commit()
+        return {"message": "Movie successfully deleted"}
