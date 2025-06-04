@@ -1,5 +1,4 @@
 from fastapi import Depends, HTTPException
-from sqlalchemy import Select
 from sqlmodel import Session, select
 
 from app.db.session import get_session
