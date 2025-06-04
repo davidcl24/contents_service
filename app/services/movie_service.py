@@ -20,7 +20,8 @@ class MovieService:
         return MovieResponse(**movie.model_dump())
 
     def get_all(self):
-        return self.session.exec(select(Movie)).all()
+        query = select(Movie)
+        return self.session.exec(query).all()
 
     def get_by_id(self, movie_id: int):
         return self.session.get(Movie, movie_id)
@@ -47,7 +48,7 @@ class MovieService:
 
         return results
 
-    def update(self, movie_id: int, movie_data: MovieUpdate):
+    def update(self, movie_id: int, movie_data: MovieUpdate) -> Movie:
         movie = self.session.get(Movie, movie_id)
         if not movie:
             raise HTTPException(status_code=404, detail="Movie not found")

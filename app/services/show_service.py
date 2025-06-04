@@ -20,7 +20,8 @@ class ShowService:
         return ShowResponse(**show.model_dump())
 
     def get_all(self):
-        return self.session.exec(select(Show)).all()
+        query = select(Show)
+        return self.session.exec(query).all()
 
     def get_by_id(self, show_id: int):
         return self.session.get(Show, show_id)
@@ -47,7 +48,7 @@ class ShowService:
 
         return results
 
-    def update(self, show_id: int, show_data: ShowUpdate):
+    def update(self, show_id: int, show_data: ShowUpdate) -> Show:
         show = self.session.get(Show, show_id)
         if not show:
             raise HTTPException(status_code=404, detail="Show not found")
