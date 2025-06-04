@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException
-from sqlmodel import Session
+from sqlalchemy import Select
+from sqlmodel import Session, select
 
 from app.db.session import get_session
 from app.models.episode import Episode
@@ -21,6 +22,10 @@ class EpisodeService:
     def get_all_from_show(self, show_id: int):
         show = self.session.get(Show, show_id)
         return show.episodes
+
+    def get_from_show_by_season(self, show_id: int, season_num: int):
+        query = select(Episode).where(Episode.show_id == show_id).where(Episode.season_num == season_num)
+        return self.session.exec(query).all()
 
     def get_by_id(self, episode_id: int):
         return self.session.get(Episode, episode_id)
