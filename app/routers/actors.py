@@ -14,22 +14,22 @@ async def create_actor(actor: ActorCreate, service: ActorService = Depends()):
 async def read_actors(service: ActorService = Depends()):
     return service.get_all()
 
-@router.get("/actors/{id}", response_model=ActorResponse)
+@router.get("/actors/{actor_id}", response_model=ActorResponse)
 async def read_actor(actor_id: int, service: ActorService = Depends()):
     return service.get_by_id(actor_id)
 
-@router.get("/movies/{id}/actors", response_model=list[ActorResponse])
+@router.get("/movies/{movie_id}/actors", response_model=list[ActorResponse])
 async def read_actors_from_movie(movie_id: int, service: ActorService = Depends()):
     return service.get_from_movie(movie_id)
 
-@router.get("/shows/{id}/actors", response_model=list[ActorResponse])
+@router.get("/shows/{show_id}/actors", response_model=list[ActorResponse])
 async def read_actors_from_show(show_id: int, service: ActorService = Depends()):
     return service.get_from_show(show_id)
 
-@router.patch("/actors/{id}", response_model=ActorResponse)
+@router.patch("/actors/{actor_id}", response_model=ActorResponse)
 async def update_actor(actor_id: int, actor_data: ActorUpdate, service: ActorService = Depends()):
     return service.update(actor_id, actor_data)
 
-@router.delete("/actors/{id}", response_model=dict)
+@router.delete("/actors/{actor_id}", response_model=dict)
 async def delete_actor(actor_id: int, service: ActorService = Depends()):
     return service.delete(actor_id)
