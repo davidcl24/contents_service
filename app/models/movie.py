@@ -9,12 +9,14 @@ from app.models.movie_director_link import MovieDirectorLink
 
 
 class Movie(SQLModel, table=True):
+    __tablename__ = "movies"
+
     id: int | None = Field(default=None, primary_key=True)
     title: str | None
     synopsis: str | None
     length: int | None
     release_date: date | None
-    genre_id: int | None = Field(default=None, foreign_key="genre.id")
+    genre_id: int | None = Field(default=None, foreign_key="genres.id")
     poster_url: str | None
     rating: int | None
     created_at: date | None

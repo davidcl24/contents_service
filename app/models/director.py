@@ -7,6 +7,8 @@ from app.models.show_director_link import ShowDirectorLink
 
 
 class Director(SQLModel, table=True):
+    __tablename__ = "directors"
+
     id: int | None=Field(default=None, primary_key=True)
     name: str | None
     birth: date | None

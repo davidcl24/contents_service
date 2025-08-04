@@ -9,12 +9,14 @@ from app.models.show_director_link import ShowDirectorLink
 
 
 class Show(SQLModel, table=True):
+    __tablename__ = "shows"
+
     id: int | None = Field(default=None, primary_key=True)
     title: str | None = None
     synopsis: str | None = None
     seasons_num: int | None = None
     release_date: date | None = None
-    genre_id: int | None = Field(default=None, foreign_key="genre.id")
+    genre_id: int | None = Field(default=None, foreign_key="genres.id")
     poster_url: str | None = None
     rating: int | None = None
     created_at: date | None = None

@@ -7,6 +7,8 @@ from app.models.show_actor_link import ShowActorLink
 
 
 class Actor(SQLModel, table=True):
+    __tablename__ = "actors"
+
     id: int | None=Field(default=None, primary_key=True)
     name: str | None
     birth: date | None
