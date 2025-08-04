@@ -9,7 +9,7 @@ from app.schemas.show import ShowCreate, ShowResponse, ShowUpdate
 
 
 class ShowService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, show_data: ShowCreate) -> ShowResponse:

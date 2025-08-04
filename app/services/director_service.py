@@ -9,7 +9,7 @@ from app.schemas.director import DirectorResponse, DirectorCreate, DirectorUpdat
 
 
 class DirectorService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, director_data: DirectorCreate) -> DirectorResponse:

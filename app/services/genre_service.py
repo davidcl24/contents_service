@@ -7,7 +7,7 @@ from app.schemas.genre import GenreCreate, GenreResponse, GenreUpdate
 
 
 class GenreService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, genre_data: GenreCreate) -> GenreResponse:

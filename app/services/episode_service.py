@@ -8,7 +8,7 @@ from app.schemas.episode import EpisodeCreate, EpisodeResponse, EpisodeUpdate
 
 
 class EpisodeService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, episode_data: EpisodeCreate) -> EpisodeResponse:

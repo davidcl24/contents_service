@@ -9,7 +9,7 @@ from app.schemas.actor import ActorCreate, ActorResponse, ActorUpdate
 
 
 class ActorService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, actor_data: ActorCreate) -> ActorResponse:

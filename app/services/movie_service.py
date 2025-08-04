@@ -9,7 +9,7 @@ from app.schemas.movie import MovieCreate, MovieResponse, MovieUpdate
 
 
 class MovieService:
-    def __init__(self, session: Session = Depends(get_session())):
+    def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
     def create(self, movie_data: MovieCreate) -> MovieResponse:
