@@ -18,14 +18,14 @@ async def read_episodes_from_show(show_id: int, service: EpisodeService = Depend
 async def read_episodes_from_show_by_season(show_id: int, season_num: int, service: EpisodeService = Depends()):
     return service.get_from_show_by_season(show_id, season_num)
 
-@router.get("episodes/{episode_id}", response_model=EpisodeResponse)
+@router.get("/episodes/{episode_id}", response_model=EpisodeResponse)
 async def read_episode(episode_id: int, service: EpisodeService = Depends()):
     return service.get_by_id(episode_id)
 
-@router.patch("episodes/{episode_id}", response_model=EpisodeResponse)
+@router.patch("/episodes/{episode_id}", response_model=EpisodeResponse)
 async def update_episode(episode_id: int, episode_data: EpisodeUpdate, service: EpisodeService = Depends()):
     return service.update(episode_id, episode_data)
 
-@router.delete("episodes/{episode_id}", response_model=dict)
+@router.delete("/episodes/{episode_id}", response_model=dict)
 async def delete_episode(episode_id: int, service: EpisodeService = Depends()):
     return service.delete(episode_id)
