@@ -17,5 +17,6 @@ class Episode(SQLModel, table=True):
     length: int | None
     release_date: date | None
     show_id: int | None = Field(default=None, foreign_key="shows.id")
+    file_key: str | None # Delete the None in production
 
     show: Optional[Show] = Relationship(back_populates="episodes")

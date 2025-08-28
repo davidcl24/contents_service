@@ -11,7 +11,7 @@ class EpisodeCreate(SQLModel):
     length: int | None = None
     release_date: date | None = None
     show_id: int | None = None
-    file_key: str
+    file_key: str | None = None  # Delete the None in production
 
 class EpisodeResponse(EpisodeCreate):
     id: int
@@ -24,4 +24,4 @@ class EpisodeUpdate(SQLModel):
     length: int | None = None
     release_date: date | None = None
     show_id: int | None = None
-    file_key: str
+    file_key: str | None = None  # Delete the None in production
