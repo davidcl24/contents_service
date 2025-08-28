@@ -22,7 +22,7 @@ class Movie(SQLModel, table=True):
     created_at: date | None
     updated_at: date | None
     is_published: bool | None
-    file_key: str
+    file_key: str | None # Delete the None in production
 
     genre: Optional[Genre] = Relationship(back_populates="movies")
     actors: list["Actor"] = Relationship(back_populates="movies", link_model=MovieActorLink)
