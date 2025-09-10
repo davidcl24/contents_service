@@ -1,5 +1,6 @@
 from datetime import date
 
+from pydantic import field_validator
 from sqlmodel import SQLModel
 
 
@@ -13,6 +14,13 @@ class ShowCreate(SQLModel):
     rating: float | None = None
     is_published: bool | None = None
 
+    @field_validator("rating", mode="before")
+    @classmethod
+    def parse_rating(cls, v):
+        if v is None:
+            return v
+        return float(v)
+
 class ShowResponse(ShowCreate):
     id: int
 
@@ -25,3 +33,10 @@ class ShowUpdate(SQLModel):
     poster_url: str | None = None
     rating: float | None = None
     is_published: bool | None = None
+
+    @field_validator("rating", mode="before")
+    @classmethod
+    def parse_rating(cls, v):
+        if v is None:
+            return v
+        return float(v)

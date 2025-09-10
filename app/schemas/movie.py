@@ -14,6 +14,13 @@ class MovieCreate(SQLModel):
     is_published: bool | None = None
     file_key: str | None = None  # Delete the None in production
 
+    @field_validator("rating", mode="before")
+    @classmethod
+    def parse_rating(cls, v):
+        if v is None:
+            return v
+        return float(v)
+
 
 class MovieResponse(MovieCreate):
     id: int
@@ -28,3 +35,10 @@ class MovieUpdate(SQLModel):
     rating: float | None = None
     is_published: bool | None = None
     file_key: str | None = None # Delete the None in production
+
+    @field_validator("rating", mode="before")
+    @classmethod
+    def parse_rating(cls, v):
+        if v is None:
+            return v
+        return float(v)
