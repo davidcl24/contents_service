@@ -1,5 +1,6 @@
 from datetime import date
 
+from pydantic import field_validator
 from sqlmodel import SQLModel
 
 
