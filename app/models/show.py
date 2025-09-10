@@ -18,7 +18,7 @@ class Show(SQLModel, table=True):
     release_date: date | None = None
     genre_id: int | None = Field(default=None, foreign_key="genres.id")
     poster_url: str | None = None
-    rating: int | None = None
+    rating: float | None = None
     created_at: date | None = None
     updated_at: date | None = None
     is_published: bool | None = None

@@ -18,7 +18,7 @@ class Movie(SQLModel, table=True):
     release_date: date | None
     genre_id: int | None = Field(default=None, foreign_key="genres.id")
     poster_url: str | None
-    rating: int | None
+    rating: float | None
     created_at: date | None
     updated_at: date | None
     is_published: bool | None

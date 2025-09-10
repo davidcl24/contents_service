@@ -10,7 +10,7 @@ class ShowCreate(SQLModel):
     release_date: date | None = None
     genre_id: int | None = None
     poster_url: str | None = None
-    rating: int | None = None
+    rating: float | None = None
     is_published: bool | None = None
 
 class ShowResponse(ShowCreate):
@@ -23,5 +23,5 @@ class ShowUpdate(SQLModel):
     release_date: date | None = None
     genre_id: int | None = None
     poster_url: str | None = None
-    rating: int | None = None
+    rating: float | None = None
     is_published: bool | None = None
