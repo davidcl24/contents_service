@@ -1,7 +1,10 @@
 from datetime import date
+from typing import Optional
 
 from pydantic import field_validator
 from sqlmodel import SQLModel
+
+from app.models.genre import Genre
 
 
 class MovieCreate(SQLModel):
@@ -25,6 +28,9 @@ class MovieCreate(SQLModel):
 
 class MovieResponse(MovieCreate):
     id: int
+
+class MovieResponseExtended(MovieResponse):
+    genre: Optional["Genre"]
 
 class MovieUpdate(SQLModel):
     title: str | None = None

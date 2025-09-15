@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.schemas.movie import MovieResponse, MovieCreate, MovieUpdate
+from app.schemas.movie import MovieResponse, MovieCreate, MovieUpdate, MovieResponseExtended
 from app.services.movie_service import MovieService
 
 router = APIRouter(tags=["Movies"])
@@ -13,7 +13,15 @@ async def create_movie(movie: MovieCreate, service: MovieService = Depends()):
 async def read_movies(service: MovieService = Depends()):
     return service.get_all()
 
+@router.get("/movies/extended", response_model=list[MovieResponseExtended])
+async def read_movies_extended(service: MovieService = Depends()):
+    return service.get_all()
+
 @router.get("/movies/{movie_id}", response_model=MovieResponse)
+async def read_movie(movie_id: int, service: MovieService = Depends()):
+    return service.get_by_id(movie_id)
+
+@router.get("/movies/{movie_id}/extended", response_model=MovieResponseExtended)
 async def read_movie(movie_id: int, service: MovieService = Depends()):
     return service.get_by_id(movie_id)
 

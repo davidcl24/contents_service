@@ -1,7 +1,10 @@
 from datetime import date
+from typing import Optional
 
 from pydantic import field_validator
 from sqlmodel import SQLModel
+
+from app.models.genre import Genre
 
 
 class ShowCreate(SQLModel):
@@ -23,6 +26,9 @@ class ShowCreate(SQLModel):
 
 class ShowResponse(ShowCreate):
     id: int
+
+class ShowResponseExtended(ShowResponse):
+    genre: Optional["Genre"]
 
 class ShowUpdate(SQLModel):
     title: str | None = None

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.params import Depends
 
-from app.schemas.show import ShowResponse, ShowCreate, ShowUpdate
+from app.schemas.show import ShowResponse, ShowCreate, ShowUpdate, ShowResponseExtended
 from app.services.show_service import ShowService
 
 router = APIRouter(tags=["Shows"])
@@ -14,7 +14,15 @@ async def create_show(show: ShowCreate, service: ShowService = Depends()):
 async def read_shows(service: ShowService = Depends()):
     return service.get_all()
 
+@router.get("/shows/extended", response_model=list[ShowResponseExtended])
+async def read_shows(service: ShowService = Depends()):
+    return service.get_all()
+
 @router.get("/shows/{show_id}", response_model=ShowResponse)
+async def read_show(show_id: int, service: ShowService = Depends()):
+    return service.get_by_id(show_id)
+
+@router.get("/shows/{show_id}/extended", response_model=ShowResponseExtended)
 async def read_show(show_id: int, service: ShowService = Depends()):
     return service.get_by_id(show_id)
 
