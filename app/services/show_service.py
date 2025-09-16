@@ -14,6 +14,12 @@ class ShowService:
 
     def create(self, show_data: ShowCreate) -> ShowResponse:
         show = Show(**show_data.model_dump())
+
+        if show_data.directors_ids:
+            statement = select(Director).where(Director.id.in_(show_data.directors_ids))
+            directors = list(self.session.exec(statement).all())
+            show.directors = directors
+
         self.session.add(show)
         self.session.commit()
         self.session.refresh(show)
@@ -53,9 +59,14 @@ class ShowService:
         if not show:
             raise HTTPException(status_code=404, detail="Show not found")
 
-        show_dict = show_data.model_dump(exclude_unset=True)
+        show_dict = show_data.model_dump(exclude_unset=True, exclude={"directors_ids"})
         for key, value in show_dict.items():
             setattr(show, key, value)
+
+        if show_data.directors_ids:
+            statement = select(Director).where(Director.id.in_(show_data.directors_ids))
+            directors = list(self.session.exec(statement).all())
+            show.directors = directors
 
         self.session.add(show)
         self.session.commit()

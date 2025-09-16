@@ -14,6 +14,12 @@ class MovieService:
 
     def create(self, movie_data: MovieCreate) -> MovieResponse:
         movie = Movie(**movie_data.model_dump())
+
+        if movie_data.directors_ids:
+            statement = select(Director).where(Director.id.in_(movie_data.directors_ids))
+            directors = list(self.session.exec(statement).all())
+            movie.directors = directors
+
         self.session.add(movie)
         self.session.commit()
         self.session.refresh(movie)
@@ -53,9 +59,14 @@ class MovieService:
         if not movie:
             raise HTTPException(status_code=404, detail="Movie not found")
 
-        movie_dict = movie_data.model_dump(exclude_unset=True)
+        movie_dict = movie_data.model_dump(exclude_unset=True, exclude={"directors_ids"})
         for key, value in movie_dict.items():
             setattr(movie, key, value)
+
+        if movie_data.directors_ids:
+            statement = select(Director).where(Director.id.in_(movie_data.directors_ids))
+            directors = list(self.session.exec(statement).all())
+            movie.directors = directors
 
         self.session.add(movie)
         self.session.commit()

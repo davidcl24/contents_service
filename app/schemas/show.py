@@ -5,6 +5,7 @@ from pydantic import field_validator
 from sqlmodel import SQLModel
 
 from app.models.genre import Genre
+from app.schemas.director import DirectorResponse
 
 
 class ShowCreate(SQLModel):
@@ -16,6 +17,7 @@ class ShowCreate(SQLModel):
     poster_url: str | None = None
     rating: float | None = None
     is_published: bool | None = None
+    directors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod
@@ -29,6 +31,7 @@ class ShowResponse(ShowCreate):
 
 class ShowResponseExtended(ShowResponse):
     genre: Optional["Genre"]
+    directors: list["DirectorResponse"]
 
 class ShowUpdate(SQLModel):
     title: str | None = None
@@ -39,6 +42,7 @@ class ShowUpdate(SQLModel):
     poster_url: str | None = None
     rating: float | None = None
     is_published: bool | None = None
+    directors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod
