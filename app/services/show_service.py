@@ -20,6 +20,11 @@ class ShowService:
             directors = list(self.session.exec(statement).all())
             show.directors = directors
 
+        if show_data.actors_ids:
+            statement = select(Actor).where(Actor.id.in_(show_data.actors_ids))
+            actors = list(self.session.exec(statement).all())
+            show.actors = actors
+
         self.session.add(show)
         self.session.commit()
         self.session.refresh(show)
@@ -59,7 +64,7 @@ class ShowService:
         if not show:
             raise HTTPException(status_code=404, detail="Show not found")
 
-        show_dict = show_data.model_dump(exclude_unset=True, exclude={"directors_ids"})
+        show_dict = show_data.model_dump(exclude_unset=True, exclude={"directors_ids", "actors_ids"})
         for key, value in show_dict.items():
             setattr(show, key, value)
 
@@ -67,6 +72,11 @@ class ShowService:
             statement = select(Director).where(Director.id.in_(show_data.directors_ids))
             directors = list(self.session.exec(statement).all())
             show.directors = directors
+
+        if show_data.actors_ids:
+            statement = select(Actor).where(Actor.id.in_(show_data.actors_ids))
+            actors = list(self.session.exec(statement).all())
+            show.actors = actors
 
         self.session.add(show)
         self.session.commit()

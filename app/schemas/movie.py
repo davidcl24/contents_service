@@ -6,6 +6,7 @@ from sqlmodel import SQLModel
 
 from app.models.genre import Genre
 from app.schemas.director import DirectorResponse
+from app.schemas.actor import ActorResponse
 
 
 class MovieCreate(SQLModel):
@@ -19,6 +20,7 @@ class MovieCreate(SQLModel):
     is_published: bool | None = None
     file_key: str | None = None  # Delete the None in production
     directors_ids: list[int] | None = None
+    actors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod
@@ -34,6 +36,7 @@ class MovieResponse(MovieCreate):
 class MovieResponseExtended(MovieResponse):
     genre: Optional["Genre"]
     directors: list["DirectorResponse"]
+    actors: list["ActorResponse"]
 
 class MovieUpdate(SQLModel):
     title: str | None = None
@@ -46,6 +49,7 @@ class MovieUpdate(SQLModel):
     is_published: bool | None = None
     file_key: str | None = None # Delete the None in production
     directors_ids: list[int] | None = None
+    actors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod

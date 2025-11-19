@@ -20,6 +20,11 @@ class MovieService:
             directors = list(self.session.exec(statement).all())
             movie.directors = directors
 
+        if movie_data.actors_ids:
+            statement = select(Actor).where(Actor.id.in_(movie_data.actors_ids))
+            actors = list(self.session.exec(statement).all())
+            movie.actors = actors
+
         self.session.add(movie)
         self.session.commit()
         self.session.refresh(movie)
@@ -59,7 +64,7 @@ class MovieService:
         if not movie:
             raise HTTPException(status_code=404, detail="Movie not found")
 
-        movie_dict = movie_data.model_dump(exclude_unset=True, exclude={"directors_ids"})
+        movie_dict = movie_data.model_dump(exclude_unset=True, exclude={"directors_ids", "actors_ids"})
         for key, value in movie_dict.items():
             setattr(movie, key, value)
 
@@ -67,6 +72,11 @@ class MovieService:
             statement = select(Director).where(Director.id.in_(movie_data.directors_ids))
             directors = list(self.session.exec(statement).all())
             movie.directors = directors
+
+        if movie_data.actors_ids:
+            statement = select(Actor).where(Actor.id.in_(movie_data.actors_ids))
+            actors = list(self.session.exec(statement).all())
+            movie.actors = actors
 
         self.session.add(movie)
         self.session.commit()

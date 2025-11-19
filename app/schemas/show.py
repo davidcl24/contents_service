@@ -6,7 +6,7 @@ from sqlmodel import SQLModel
 
 from app.models.genre import Genre
 from app.schemas.director import DirectorResponse
-
+from app.schemas.actor import ActorResponse
 
 class ShowCreate(SQLModel):
     title: str
@@ -18,6 +18,7 @@ class ShowCreate(SQLModel):
     rating: float | None = None
     is_published: bool | None = None
     directors_ids: list[int] | None = None
+    actors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod
@@ -32,6 +33,7 @@ class ShowResponse(ShowCreate):
 class ShowResponseExtended(ShowResponse):
     genre: Optional["Genre"]
     directors: list["DirectorResponse"]
+    actors: list["ActorResponse"]
 
 class ShowUpdate(SQLModel):
     title: str | None = None
@@ -43,6 +45,7 @@ class ShowUpdate(SQLModel):
     rating: float | None = None
     is_published: bool | None = None
     directors_ids: list[int] | None = None
+    actors_ids: list[int] | None = None
 
     @field_validator("rating", mode="before")
     @classmethod
