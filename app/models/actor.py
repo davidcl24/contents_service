@@ -7,6 +7,10 @@ from app.models.show_actor_link import ShowActorLink
 
 
 class Actor(SQLModel, table=True):
+    """
+    Represents the `actors` entity in the database and its relations
+    with other entities.
+    """
     __tablename__ = "actors"
 
     id: int | None=Field(default=None, primary_key=True)

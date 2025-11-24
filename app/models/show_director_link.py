@@ -2,6 +2,9 @@ from sqlmodel import SQLModel, Field
 
 
 class ShowDirectorLink(SQLModel, table=True):
+    """
+    Represents the N:N relation between the shows and directors entities.
+    """
     __tablename__ = "shows_directors"
 
     shows_id: int | None = Field(default=None, foreign_key="shows.id", primary_key=True)

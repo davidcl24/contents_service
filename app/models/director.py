@@ -7,6 +7,10 @@ from app.models.show_director_link import ShowDirectorLink
 
 
 class Director(SQLModel, table=True):
+    """
+    Represents the `directors` entity in the database and its relations
+    with other entities.
+    """
     __tablename__ = "directors"
 
     id: int | None=Field(default=None, primary_key=True)

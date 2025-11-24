@@ -9,6 +9,10 @@ from app.models.movie_director_link import MovieDirectorLink
 
 
 class Movie(SQLModel, table=True):
+    """
+    Represents the `movies` entity in the database and its relations
+    with other entities.
+    """
     __tablename__ = "movies"
 
     id: int | None = Field(default=None, primary_key=True)

@@ -7,6 +7,10 @@ from app.models.show import Show
 
 
 class Episode(SQLModel, table=True):
+    """
+    Represents the `episodes` entity in the database and its relations
+    with other entities.
+    """
     __tablename__ = "episodes"
 
     id: int | None=Field(default=None, primary_key=True)

@@ -1,3 +1,7 @@
+"""
+Movie schemas that map the JSON that comes from the request
+or has to be sent back as a reply
+"""
 from datetime import date
 from typing import Optional
 
@@ -10,6 +14,7 @@ from app.schemas.actor import ActorResponse
 
 
 class MovieCreate(SQLModel):
+    """Schema that contains the necessary data to create a new movie"""
     title: str
     synopsis: str | None = None
     length: int | None = None
@@ -25,20 +30,25 @@ class MovieCreate(SQLModel):
     @field_validator("rating", mode="before")
     @classmethod
     def parse_rating(cls, v):
+        """Safely parses the data that comes in JSON in the rating field to float when creating a new movie"""
         if v is None:
             return v
         return float(v)
 
 
 class MovieResponse(MovieCreate):
+    """Schema that contains the movie data that should be returned to the client. It inherits the create schema"""
     id: int
 
 class MovieResponseExtended(MovieResponse):
+    """Schema that contains the same data as the other response schema but with extra stuff.
+    It inherits the base MovieResponse schema"""
     genre: Optional["Genre"]
     directors: list["DirectorResponse"]
     actors: list["ActorResponse"]
 
 class MovieUpdate(SQLModel):
+    """Schema used to update an existing movie"""
     title: str | None = None
     synopsis: str | None = None
     length: int | None = None
@@ -54,6 +64,7 @@ class MovieUpdate(SQLModel):
     @field_validator("rating", mode="before")
     @classmethod
     def parse_rating(cls, v):
+        """Safely parses the data that comes in JSON in the rating field to float when updating an existing movie"""
         if v is None:
             return v
         return float(v)

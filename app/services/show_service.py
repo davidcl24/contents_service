@@ -9,10 +9,13 @@ from app.schemas.show import ShowCreate, ShowResponse, ShowUpdate
 
 
 class ShowService:
+    """It contains the CRUD for the shows table in the DB"""
     def __init__(self, session: Session = Depends(get_session)):
+        """Instantiates an object of the ShowService class with a session to communicate with the DB"""
         self.session = session
 
     def create(self, show_data: ShowCreate) -> ShowResponse:
+        """Creates a new show and its N:N relation with directors and actors based on the received schema"""
         show = Show(**show_data.model_dump())
 
         if show_data.directors_ids:
@@ -31,26 +34,32 @@ class ShowService:
         return ShowResponse(**show.model_dump())
 
     def get_all(self):
+        """Returns a list of all existing shows"""
         query = select(Show)
         return self.session.exec(query).all()
 
     def get_by_id(self, show_id: int):
+        """Returns only the desired show"""
         return self.session.get(Show, show_id)
 
     def get_by_genre(self, genre_id: int):
+        """Returns a list of all shows in a genre"""
         statement = select(Show).where(Show.genre_id == genre_id)
         result = self.session.exec(statement)
         return result.all()
 
     def get_with_actor(self, actor_id):
+        """Returns a list of all shows with an actor in it"""
         actor = self.session.get(Actor, actor_id)
         return actor.shows
 
     def get_with_director(self, director_id):
+        """Returns a list of all shows with a director in it"""
         director = self.session.get(Director, director_id)
         return director.shows
 
     def get_batch(self, ids: list[int]):
+        """Returns a list of the desired shows based on a list of IDs"""
         statement = select(Show).where(Show.id.in_(ids))
         results = self.session.exec(statement).all()
 
@@ -60,6 +69,7 @@ class ShowService:
         return results
 
     def update(self, show_id: int, show_data: ShowUpdate) -> Show:
+        """Updates an existing show and its N:N relation with directors and actors based on the received schema"""
         show = self.session.get(Show, show_id)
         if not show:
             raise HTTPException(status_code=404, detail="Show not found")
@@ -84,6 +94,7 @@ class ShowService:
         return show
 
     def delete(self, show_id: int):
+        """Removes the desired show from the DB"""
         show = self.session.get(Show, show_id)
         if not show:
             raise HTTPException(status_code=404, detail="Show not found")

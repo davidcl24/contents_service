@@ -9,6 +9,10 @@ from app.models.show_director_link import ShowDirectorLink
 
 
 class Show(SQLModel, table=True):
+    """
+    Represents the `shows` entity in the database and its relations
+    with other entities.
+    """
     __tablename__ = "shows"
 
     id: int | None = Field(default=None, primary_key=True)
