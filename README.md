@@ -1,4 +1,4 @@
-# ContentsService
+# Contents Service
 
 This service manages the creation and update of contents for a 
 streaming app.
